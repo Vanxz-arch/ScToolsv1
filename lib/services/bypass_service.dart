@@ -73,7 +73,7 @@ class BypassService {
         // Coba extract URL dari plain text / HTML
         final text = response.body;
         final urlRegex = RegExp(
-          r'https?://[^\s"\'<>]+',
+          r"""https?://[^\s"'<>]+""",
           caseSensitive: false,
         );
         final matches = urlRegex.allMatches(text);
