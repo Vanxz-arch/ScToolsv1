@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="launch_background">#FFFFFF</color>
+    <color name="purple_primary">#7C3AFF</color>
+    <color name="cyan_accent">#00D4FF</color>
+</resources>

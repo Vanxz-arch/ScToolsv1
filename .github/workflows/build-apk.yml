@@ -1,0 +1,44 @@
+name: Build ScTools APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # bisa trigger manual dari GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Inject YouTube API Key
+        run: |
+          sed -i "s/YOUR_YOUTUBE_API_KEY_HERE/${{ secrets.YOUTUBE_API_KEY }}/g" lib/services/youtube_service.dart
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK Release
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScToolsv1-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
